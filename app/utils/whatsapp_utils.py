@@ -3,7 +3,7 @@ from flask import current_app, jsonify
 import json
 import requests
 
-# from app.services.openai_service import generate_response
+from app.services.whisper_service import WhisperASR
 import re
 import os
 
@@ -26,8 +26,8 @@ def get_text_message_input(recipient, text):
     )
     
 
-def get_audio_file_url(media_id):
-    url = f"https://graph.facebook.com/v19.0/{media_id}/"
+def get_audio_file_url(audio_id):
+    url = f"https://graph.facebook.com/v19.0/{audio_id}/"
     headers = {
         "Authorization": f"Bearer {current_app.config['ACCESS_TOKEN']}"
     }
@@ -45,8 +45,8 @@ def get_audio_file_url(media_id):
         return None
     
 
-def download_audio_file(media_id, file_path):
-    url = get_audio_file_url(media_id)
+def download_audio_file(audio_id):
+    url = get_audio_file_url(audio_id)
     headers = {
         "Authorization": f"Bearer {current_app.config['ACCESS_TOKEN']}"
     }
@@ -54,7 +54,7 @@ def download_audio_file(media_id, file_path):
     try:
         response = requests.get(url, headers=headers)
         response.raise_for_status()
-        with open(file_path, "wb") as file:
+        with open(f"audios/{audio_id}.ogg", "wb") as file:
             file.write(response.content)
         return True
     except requests.RequestException as e:
@@ -62,13 +62,13 @@ def download_audio_file(media_id, file_path):
         return False
     
 
-def upload_audio_file(media_id, file_path):
+def upload_audio_file(media_id):
     url = f"https://graph.facebook.com/v19.0/{media_id}/media"
     headers = {
         "Authorization": f"Bearer {current_app.config['ACCESS_TOKEN']}"
     }
     files = {
-        "file": open(file_path, "rb")
+        "file": open("audios/prueba.ogg", "rb")
     }
     data = {
         "type": "audio/ogg",
@@ -136,10 +136,16 @@ def process_whatsapp_message(body):
     message = body["entry"][0]["changes"][0]["value"]["messages"][0]
     audio_id = message["audio"]["id"]
     
-    # Upload audio file
-    file_path = os.path.join(f"audios/{audio_id}.ogg")
+    download_audio_file(audio_id)
     
-    download_audio_file(audio_id, file_path)
+    whisper = WhisperASR()
+    
+    whisper.to_text(f"audios/{audio_id}.ogg")
+    
+    response = process_text_for_whatsapp(whisper.text())
+
+    data = get_text_message_input(current_app.config["RECIPIENT_WAID"], response)
+    send_message(data)
 
     """ TODO: 
         - implementar integracion con whisper usando un 'servicio' file
