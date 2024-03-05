@@ -33,7 +33,7 @@ pip install -r requirements.txt
 
 2. Configura una cuenta en ngrok para obtener un dominio gratuito en desarrollo. Este dominio será necesario para probar el bot desde WhatsApp y también se utilizará al crear el webhook.
 
-3. Crea una cuenta de Meta for Developers y ahi dentro deberás crar una nueva app. Una vez creada deberás añadir whatsapp a tu nueva aplicación y configurar un webhook. Para más información, visitá la documentación de [cloud API]([https://github.com/](https://developers.facebook.com/docs/whatsapp/cloud-api/get-started)) de Meta.
+3. Crea una cuenta de Meta for Developers y ahi dentro deberás crar una nueva app. Una vez creada deberás añadir whatsapp a tu nueva aplicación y configurar un webhook. Para más información, visitá la documentación de [cloud API](https://developers.facebook.com/docs/whatsapp/cloud-api/get-started) de Meta.
 
 4. Ejecuta la aplicación Flask para abrir una conexión con el dominio asociado a la aplicación:
 
