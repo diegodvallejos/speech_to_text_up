@@ -1,45 +1,45 @@
-# WhatsApp Speech-to-Text using OpenAI Whisper
+## WhatsApp Bot Speech-to-Text with OpenAI Whisper
 
-Este proyecto es una aplicación que permite convertir mensajes de voz de WhatsApp en texto utilizando el modelo de lenguaje de OpenAI llamado Whisper. Con esta aplicación, los usuarios podrán transcribir fácilmente los mensajes de voz recibidos en WhatsApp a texto, lo que facilita la comprensión y la accesibilidad de los mensajes de audio.
+Este repositorio permite implementar un bot en WhatsApp que convierte mensajes de voz enviados por los usuarios en texto utilizando el modelo de lenguaje de OpenAI Whisper, específicamente el modelo whisper-large-v3.
 
-## Características
+### Cómo Funciona
 
-- Conversión de mensajes de voz de WhatsApp a texto.
-- Utiliza el modelo de lenguaje de OpenAI Whisper para transcribir los mensajes de voz con precisión.
-- Interfaz fácil de usar para los usuarios de WhatsApp.
+El bot en WhatsApp se configura utilizando Meta for Developers para interactuar con la API de WhatsApp. Esto se logra mediante un webhook que permite que un número de teléfono actúe como un bot. Cada vez que un usuario envía un mensaje, este se recibe y procesa utilizando Python.
 
-## Requisitos
+### Proceso de Conversión
+
+1. Cuando un usuario envía un mensaje de voz a través de WhatsApp, el bot recibe la solicitud a través del webhook.
+
+2. El mensaje de voz se procesa utilizando el modelo de lenguaje de OpenAI Whisper, que se encuentra en la versión whisper-large-v3.
+
+3. Una vez que se completa la inferencia, el mensaje de voz se convierte en texto.
+
+4. El texto resultante se envía de vuelta al usuario como respuesta al mensaje original de voz.
+
+### Requisitos
 
 - Python 3.10.4
-- Instalaciones necesarias que se especifican en el archivo `requirements.txt`.
+- Cuenta en ngrok para obtener un dominio gratuito en desarrollo.
 
-## Instalación
+### Configuración
 
-1. Clona este repositorio en tu máquina local utilizando el siguiente comando:
+Para ejecutar la aplicación, sigue estos pasos:
 
-```bash
-git clone https://github.com/diegodvallejos/speech_to_text_up.git
-```
-
-2. Instala las dependencias requeridas ejecutando el siguiente comando:
+1. Instala las dependencias requeridas ejecutando el siguiente comando:
 
 ```bash
 pip install -r requirements.txt
 ```
 
-## Uso
+2. Configura una cuenta en ngrok para obtener un dominio gratuito en desarrollo. Este dominio será necesario para probar el bot desde WhatsApp y también se utilizará al crear el webhook.
 
-1. Ejecuta el archivo principal de la aplicación:
+3. Ejecuta la aplicación Flask para abrir una conexión con el dominio asociado a la aplicación:
 
 ```bash
-python main.py
+python run.py
 ```
 
-2. La aplicación solicitará acceso al directorio donde están almacenados los mensajes de voz de WhatsApp. Proporciona la ruta correspondiente cuando se solicite.
-
-3. La aplicación procesará automáticamente los archivos de audio de WhatsApp y generará archivos de texto correspondientes en el mismo directorio.
-
-4. ¡Disfruta de tus mensajes de voz de WhatsApp convertidos en texto!
+4. Desde otra terminal, ejecuta ngrok http 8000 --domain [nombre del dominio de ngrok] para establecer el "túnel" que permite que WhatsApp acceda a la aplicación.
 
 ## Contribución
 
@@ -50,10 +50,6 @@ Si deseas contribuir a este proyecto, sigue estos pasos:
 3. Haz tus cambios y realiza un commit (`git commit -am 'Añade nueva característica'`).
 4. Haz push a la rama (`git push origin feature/nueva-caracteristica`).
 5. Crea un nuevo Pull Request.
-
-## Créditos
-
-Este proyecto utiliza el modelo de lenguaje de OpenAI Whisper para la conversión de voz a texto.
 
 ## Licencia
 
