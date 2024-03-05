@@ -2,7 +2,7 @@
 
 Este repositorio permite implementar un bot en WhatsApp que convierte mensajes de voz enviados por los usuarios en texto utilizando el modelo de lenguaje de OpenAI Whisper, específicamente el modelo whisper-large-v3.
 
-### Cómo Funciona
+## Cómo Funciona
 
 El bot en WhatsApp se configura utilizando Meta for Developers para interactuar con la API de WhatsApp. Esto se logra mediante un webhook que permite que un número de teléfono actúe como un bot. Cada vez que un usuario envía un mensaje, este se recibe y procesa utilizando Python.
 
@@ -16,12 +16,12 @@ El bot en WhatsApp se configura utilizando Meta for Developers para interactuar 
 
 4. El texto resultante se envía de vuelta al usuario como respuesta al mensaje original de voz.
 
-### Requisitos
+## Requisitos
 
 - Python 3.10.4
 - Cuenta en ngrok para obtener un dominio gratuito en desarrollo.
 
-### Configuración
+## Configuración
 
 Para ejecutar la aplicación, sigue estos pasos:
 
