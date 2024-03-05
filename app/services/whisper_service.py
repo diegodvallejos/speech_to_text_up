@@ -1,5 +1,19 @@
 import torch
 from transformers import AutoModelForSpeechSeq2Seq, AutoProcessor, pipeline
+from dotenv import load_dotenv, find_dotenv
+import requests
+import os
+
+load_dotenv(find_dotenv())
+
+def generate_response(audio_file):
+    API_URL = "https://api-inference.huggingface.co/models/openai/whisper-large-v3"
+    headers = {"Authorization": f"Bearer {os.environ.get('WHISPER_API_KEY')}"}
+
+    with open(audio_file, "rb") as f:
+        data = f.read()
+    response = requests.post(API_URL, headers=headers, data=data)
+    return response.json()
 
 class WhisperASR():
     """
@@ -17,7 +31,7 @@ class WhisperASR():
         self.device = "cuda:0" if torch.cuda.is_available() else "cpu"
         self.torch_dtype = torch.float16 if torch.cuda.is_available() else torch.float32
 
-        model_id = "openai/whisper-large-v3"
+        model_id = "openai/whisper-medium"
 
         self.model = AutoModelForSpeechSeq2Seq.from_pretrained(
             model_id, torch_dtype=self.torch_dtype, low_cpu_mem_usage=True, use_safetensors=True

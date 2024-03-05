@@ -28,8 +28,6 @@ def handle_message():
     """
     body = request.get_json()
     # logging.info(f"request body: {body}")
-    with open('data.json', 'w') as f:
-        json.dump(body, f, indent=4)
 
     # Check if it's a WhatsApp status update
     if (

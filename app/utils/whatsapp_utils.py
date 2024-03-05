@@ -3,9 +3,10 @@ from flask import current_app, jsonify
 import json
 import requests
 
-from app.services.whisper_service import WhisperASR
+from app.services.whisper_service import generate_response
 import re
 import os
+import time
 
 
 def log_http_response(response):
@@ -134,22 +135,23 @@ def process_whatsapp_message(body):
     name = body["entry"][0]["changes"][0]["value"]["contacts"][0]["profile"]["name"]
 
     message = body["entry"][0]["changes"][0]["value"]["messages"][0]
+    
+    if message["type"] == "text":
+        send_message(get_text_message_input(current_app.config["RECIPIENT_WAID"], "Por favor, envíame un audio."))
+        raise Exception("Invalid message type. Expected audio, received text.")
+    
     audio_id = message["audio"]["id"]
     
     download_audio_file(audio_id)
     
-    whisper = WhisperASR()
+    audio_file = f"audios/{audio_id}.ogg"
     
-    whisper.to_text(f"audios/{audio_id}.ogg")
-    
-    response = process_text_for_whatsapp(whisper.text())
+    response = generate_response(audio_file)
 
-    data = get_text_message_input(current_app.config["RECIPIENT_WAID"], response)
+    data = get_text_message_input(current_app.config["RECIPIENT_WAID"], response["text"])
     send_message(data)
 
     """ TODO: 
-        - implementar integracion con whisper usando un 'servicio' file
-        response = generate_response(message_body)
         - crear logica para cuando nos envian un texto en vez de un audio
     """
 

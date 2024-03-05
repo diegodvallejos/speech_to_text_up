@@ -12,6 +12,9 @@ __pycache__/
 # Audios
 audios
 
+# Testing
+main-testing.ipynb
+
 # Distribution / packaging
 .Python
 build/
