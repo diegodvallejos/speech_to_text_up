@@ -2,7 +2,7 @@
 
 Este repositorio permite implementar un bot en WhatsApp que convierte mensajes de voz enviados por los usuarios en texto utilizando el modelo de lenguaje de OpenAI Whisper, específicamente el modelo whisper-large-v3.
 
-### Cómo Funciona
+## Cómo Funciona
 
 El bot en WhatsApp se configura utilizando Meta for Developers para interactuar con la API de WhatsApp. Esto se logra mediante un webhook que permite que un número de teléfono actúe como un bot. Cada vez que un usuario envía un mensaje, este se recibe y procesa utilizando Python.
 
@@ -16,12 +16,12 @@ El bot en WhatsApp se configura utilizando Meta for Developers para interactuar 
 
 4. El texto resultante se envía de vuelta al usuario como respuesta al mensaje original de voz.
 
-### Requisitos
+## Requisitos
 
 - Python 3.10.4
 - Cuenta en ngrok para obtener un dominio gratuito en desarrollo.
 
-### Configuración
+## Configuración
 
 Para ejecutar la aplicación, sigue estos pasos:
 
@@ -33,13 +33,15 @@ pip install -r requirements.txt
 
 2. Configura una cuenta en ngrok para obtener un dominio gratuito en desarrollo. Este dominio será necesario para probar el bot desde WhatsApp y también se utilizará al crear el webhook.
 
-3. Ejecuta la aplicación Flask para abrir una conexión con el dominio asociado a la aplicación:
+3. Crea una cuenta de Meta for Developers y ahi dentro deberás crar una nueva app. Una vez creada deberás añadir whatsapp a tu nueva aplicación y configurar un webhook. Para más información, visitá la documentación de [cloud API](https://developers.facebook.com/docs/whatsapp/cloud-api/get-started) de Meta.
+
+4. Ejecuta la aplicación Flask para abrir una conexión con el dominio asociado a la aplicación:
 
 ```bash
 python run.py
 ```
 
-4. Desde otra terminal, ejecuta ngrok http 8000 --domain [nombre del dominio de ngrok] para establecer el "túnel" que permite que WhatsApp acceda a la aplicación.
+5. Desde otra terminal, ejecuta ngrok http 8000 --domain [nombre del dominio de ngrok] para establecer el "túnel" que permite que WhatsApp acceda a la aplicación.
 
 ## Contribución
 
