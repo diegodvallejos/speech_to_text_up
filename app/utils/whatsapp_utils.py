@@ -137,7 +137,7 @@ def process_whatsapp_message(body):
     message = body["entry"][0]["changes"][0]["value"]["messages"][0]
     
     if message["type"] == "text":
-        send_message(get_text_message_input(current_app.config["RECIPIENT_WAID"], "Por favor, envíame un audio."))
+        send_message(get_text_message_input(wa_id, "Por favor, envíame un audio."))
         raise Exception("Invalid message type. Expected audio, received text.")
     
     audio_id = message["audio"]["id"]
@@ -148,12 +148,8 @@ def process_whatsapp_message(body):
     
     response = generate_response(audio_file)
 
-    data = get_text_message_input(current_app.config["RECIPIENT_WAID"], response["text"])
+    data = get_text_message_input(wa_id, response["text"])
     send_message(data)
-
-    """ TODO: 
-        - crear logica para cuando nos envian un texto en vez de un audio
-    """
 
 
 def is_valid_whatsapp_message(body):
