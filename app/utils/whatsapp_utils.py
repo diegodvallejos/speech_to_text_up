@@ -62,6 +62,14 @@ def download_audio_file(audio_id):
         logging.error(f"Failed to download audio file: {e}")
         return False
     
+    
+def delete_audio_file(audio_file):
+    try:
+        os.remove(audio_file)
+        return True
+    except FileNotFoundError:
+        logging.error(f"File not found: {audio_file}")
+        return False
 
 def upload_audio_file(media_id):
     url = f"https://graph.facebook.com/v19.0/{media_id}/media"
@@ -147,6 +155,8 @@ def process_whatsapp_message(body):
     audio_file = f"audios/{audio_id}.ogg"
     
     response = generate_response(audio_file)
+    
+    delete_audio_file(audio_file)
 
     data = get_text_message_input(wa_id, response["text"])
     send_message(data)
